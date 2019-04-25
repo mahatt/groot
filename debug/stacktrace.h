@@ -90,4 +90,30 @@ static inline void print_stacktrace(FILE *out = stderr, unsigned int max_frames 
     free(symbollist);
 }
 
+
+void signal_handler(int sig_num){
+	switch(sig_num){
+		case  SIGSEGV:
+		case  SIGTERM:
+		case  SIGINT:
+		case  SIGABRT:
+	    print_stacktrace();
+		break;
+		case  SIGUSR1:
+		case  SIGUSR2:
+		printf(" USER DEFINED SIGNAL !!!! \n");
+		fflush(0);
+		break;
+		default:
+	}
+	
+}
+
+void kill_installer(){
+	signal(SIGSEGV,signal_handler);
+	signal(SIGTERM,signal_handler);
+	signal(SIGINT,signal_handler);
+	signal(SIGABRT,signal_handler);	
+}
+
 #endif // _STACKTRACE_H_
